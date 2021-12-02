@@ -35,3 +35,22 @@ pub fn part1(input: String) {
     println!("Horizontal {}, Depth {}", horizontal, depth);
     println!("Combined: {}", horizontal * depth);
 }
+
+pub fn part2(input: String) {
+    let input = parse(&input);
+    let mut horizontal = 0usize;
+    let mut depth = 0usize;
+    let mut aim = 0usize;
+    for command in input {
+        match command {
+            Command::Forward(x) => {
+                horizontal += x;
+                depth += aim * x;
+            }
+            Command::Down(x) => aim += x,
+            Command::Up(x) => aim -= x,
+        }
+    }
+    println!("Horizontal {}, Depth {}", horizontal, depth);
+    println!("Combined: {}", horizontal * depth);
+}
