@@ -87,4 +87,26 @@ pub fn part1(input: String) {
     panic!("No bingo.");
 }
 
-pub fn part2(_input: String) {}
+pub fn part2(input: String) {
+    let (numbers, mut boards) = parse(&input);
+
+    let mut picked = HashSet::<u32>::new();
+    for number in numbers {
+        picked.insert(number);
+
+        if boards.len() == 1 && boards[0].has_bingo(&picked) {
+            // Calculate score.
+            let unmarked: u32 = boards[0]
+                .numbers
+                .iter()
+                .filter(|x| !picked.contains(x))
+                .sum();
+            let score = unmarked * number;
+            println!("Final BINGO! Score = {}", score);
+            return;
+        }
+
+        // Remove finished boards.
+        boards.retain(|b| !b.has_bingo(&picked));
+    }
+}
